@@ -1,26 +1,84 @@
 import React from "react";
 import { useState } from "react";
 import "./App.css";
+import Web3 from "web3";
 
 export default function App() {
   const [num, setNum] = useState(1);
   const [num1, setNum1] = useState(1);
   const [num2, setNum2] = useState(1);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleClick = () => {
-    // Aqui você pode adicionar lógica adicional para manipular o valor do input
-    console.log(num);
+  const handleClick = async () => {
+    // Check if Metamask is installed
+    if (typeof window.ethereum === "undefined") {
+      setErrorMessage("Please install Metamask");
+      return;
+    }
+    // Request user's wallet access
+    const accounts = await window.ethereum.request({
+      method: "eth_requestAccounts",
+    });
+
+    // Send payment using user's wallet address and selected amount
+    const web3 = new Web3(window.ethereum);
+    web3.eth
+      .sendTransaction({
+        from: accounts[0],
+        to: "0x42476679D3999e498b1D3E7225BBA3b8e9c019D2", // Recipient wallet address
+        value: web3.utils.toWei(`${num}`, "ether"),
+      })
+      .then(() => setErrorMessage("Transaction successful"))
+      .catch(() => setErrorMessage("Transaction failed"));
   };
 
-  const handleClick1 = () => {
-    // Aqui você pode adicionar lógica adicional para manipular o valor do input
-    console.log(num1);
+  const handleClick1 = async () => {
+    // Check if Metamask is installed
+    if (typeof window.ethereum === "undefined") {
+      setErrorMessage("Please install Metamask");
+      return;
+    }
+    // Request user's wallet access
+    const accounts = await window.ethereum.request({
+      method: "eth_requestAccounts",
+    });
+
+    // Send payment using user's wallet address and selected amount
+    const web3 = new Web3(window.ethereum);
+    web3.eth
+      .sendTransaction({
+        from: accounts[0],
+        to: "0x42476679D3999e498b1D3E7225BBA3b8e9c019D2", // Recipient wallet address
+        value: web3.utils.toWei(`${num1}`, "ether"),
+      })
+      .then(() => setErrorMessage("Transaction successful"))
+      .catch(() => setErrorMessage("Transaction failed"));
   };
 
-  const handleClick2 = () => {
-    // Aqui você pode adicionar lógica adicional para manipular o valor do input
-    console.log(num2);
+  const handleClick2 = async () => {
+    // Check if Metamask is installed
+    if (typeof window.ethereum === "undefined") {
+      setErrorMessage("Please install Metamask");
+      return;
+    }
+    // Request user's wallet access
+    const accounts = await window.ethereum.request({
+      method: "eth_requestAccounts",
+    });
+
+    // Send payment using user's wallet address and selected amount
+    const web3 = new Web3(window.ethereum);
+    web3.eth
+      .sendTransaction({
+        from: accounts[0],
+        to: "0x42476679D3999e498b1D3E7225BBA3b8e9c019D2", // Recipient wallet address
+        value: web3.utils.toWei(`${num2}`, "ether"),
+      })
+      .then(() => setErrorMessage("Transaction successful"))
+      .catch(() => setErrorMessage("Transaction failed"));
   };
+
+  const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
 
   return (
     <div className="header">
@@ -44,6 +102,8 @@ export default function App() {
 
         <button onClick={handleClick}>Purchase ID 1</button>
         <br />
+        {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+        <br />
       </div>
       <br />
 
@@ -66,6 +126,8 @@ export default function App() {
 
         <button onClick={handleClick1}>Purchase ID 2</button>
         <br />
+        {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+        <br />
       </div>
       <br />
       <div className="item3">
@@ -87,6 +149,7 @@ export default function App() {
 
         <button onClick={handleClick2}>Purchase ID 3</button>
         <br />
+        {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
         <br />
       </div>
     </div>
