@@ -8,6 +8,8 @@ export default function App() {
   const [num1, setNum1] = useState(1);
   const [num2, setNum2] = useState(1);
   const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage1, setErrorMessage1] = useState("");
+  const [errorMessage2, setErrorMessage2] = useState("");
 
   const handleClick = async () => {
     // Check if Metamask is installed
@@ -35,7 +37,7 @@ export default function App() {
   const handleClick1 = async () => {
     // Check if Metamask is installed
     if (typeof window.ethereum === "undefined") {
-      setErrorMessage("Please install Metamask");
+      setErrorMessage1("Please install Metamask");
       return;
     }
     // Request user's wallet access
@@ -51,14 +53,14 @@ export default function App() {
         to: "0x42476679D3999e498b1D3E7225BBA3b8e9c019D2", // Recipient wallet address
         value: web3.utils.toWei(`${num1}`, "ether"),
       })
-      .then(() => setErrorMessage("Transaction successful"))
-      .catch(() => setErrorMessage("Transaction failed"));
+      .then(() => setErrorMessage1("Transaction successful"))
+      .catch(() => setErrorMessage1("Transaction failed"));
   };
 
   const handleClick2 = async () => {
     // Check if Metamask is installed
     if (typeof window.ethereum === "undefined") {
-      setErrorMessage("Please install Metamask");
+      setErrorMessage2("Please install Metamask");
       return;
     }
     // Request user's wallet access
@@ -74,8 +76,8 @@ export default function App() {
         to: "0x42476679D3999e498b1D3E7225BBA3b8e9c019D2", // Recipient wallet address
         value: web3.utils.toWei(`${num2}`, "ether"),
       })
-      .then(() => setErrorMessage("Transaction successful"))
-      .catch(() => setErrorMessage("Transaction failed"));
+      .then(() => setErrorMessage2("Transaction successful"))
+      .catch(() => setErrorMessage2("Transaction failed"));
   };
 
   const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
@@ -126,7 +128,7 @@ export default function App() {
 
         <button onClick={handleClick1}>Purchase ID 2</button>
         <br />
-        {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+        {errorMessage1 && <p style={{ color: "red" }}>{errorMessage1}</p>}
         <br />
       </div>
       <br />
@@ -149,7 +151,7 @@ export default function App() {
 
         <button onClick={handleClick2}>Purchase ID 3</button>
         <br />
-        {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+        {errorMessage2 && <p style={{ color: "red" }}>{errorMessage2}</p>}
         <br />
       </div>
     </div>
